@@ -1,0 +1,65 @@
+\documentclass[10pt,a4paper, leqno]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{tikz}
+\usepackage{algpseudocode}
+\usetikzlibrary{arrows}
+\usepackage{algorithm}
+\usepackage{caption}
+\usepackage{xcolor}
+\usepackage[autostyle]{csquotes}
+\usepackage{graphicx} 
+\usepackage{listings}
+\usepackage{color}
+\usepackage{geometry}
+\usepackage{eurosym}
+\usepackage{tabu}
+\usepackage{booktabs}
+\usepackage{lmodern}
+\usepackage{tabu}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage[german]{babel}
+\usepackage{titlesec}
+\usepackage{multirow}
+
+\newcommand{\lheader}{Linker Header }
+\newcommand{\rheader}{Rechter Header }
+\newcommand{\titletext}{Titel}
+
+
+\titleformat*{\section}{\large\bfseries}
+\titleformat*{\subsection}{\normalsize\bfseries}
+
+\geometry{a4paper,left=12mm,right=12mm, top=15mm, bottom=20mm} 
+
+\newcommand{\vars}{\texttt}
+\newcommand{\func}{\textrm}
+\let\oldReturn\Return
+\renewcommand{\Return}{\State\oldReturn}
+
+
+\algnewcommand\algorithmicforeach{\textbf{for each}}
+\algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
+
+\pagestyle{fancy}
+\fancyhf{}
+
+\lhead{\lheader}
+\rhead{\rheader}
+\renewcommand{\footrulewidth}{0.4pt} %untere Trennlinie
+\rfoot{\pagemark}
+
+\begin{document}
+
+\begin{center}
+    \textbf{\huge{\titletext}} \\    
+\end{center}
+
+
+\end{document}
+
