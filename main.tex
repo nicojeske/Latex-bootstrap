@@ -26,6 +26,8 @@
 \usepackage[german]{babel}
 \usepackage{titlesec}
 \usepackage{multirow}
+\usepackage{venndiagram}
+
 
 \newcommand{\lheader}{Linker Header }
 \newcommand{\rheader}{Rechter Header }
@@ -72,9 +74,14 @@
 
 \begin{document}
 
-\begin{center}
-    \textbf{\huge{\titletext}} \\    
-\end{center}
+% Venn Diagramm
+%\begin{center}
+%    \textbf{\huge{\titletext}} \\    
+%\end{center}
+
+\begin{venndiagram2sets}[showframe=false]
+\fillOnlyB
+\end{venndiagram2sets}
 
 
 \end{document}
