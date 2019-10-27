@@ -27,6 +27,7 @@
 \usepackage{titlesec}
 \usepackage{multirow}
 \usepackage{venndiagram}
+\usepackage[european]{circuitikz}
 
 
 \newcommand{\lheader}{Linker Header }
@@ -74,14 +75,113 @@
 
 \begin{document}
 
-% Venn Diagramm
-%\begin{center}
-%    \textbf{\huge{\titletext}} \\    
-%\end{center}
+\begin{center}
+  \textbf{\huge{\titletext}} \\
+\end{center}
 
+% OBDD
+\begin{tikzpicture}
+  % Ebene 0
+  \node[circle,draw] (n0) at (2,0) {$x_1$};
+  % Ebene 1
+  \node[circle,draw] (n1_1) at (1,-1.5) {$x_2$};
+  \node[circle,draw] (n1_2) at (3,-1.5) {$x_3$};
+  % Pfeile 0->1
+  \path[->,dashed,line width=0.2mm] (n0) edge [left] node {0} (n1_1);
+  \path[->,line width=0.2mm] (n0) edge [right] node {1} (n1_2);
+  % Ebene 2
+  \node[circle,draw] (n2_1) at (1,-3) {$x_3$};
+  \node[circle,draw] (n2_2) at (3,-3) {$x_2$};
+  % Pfeile 1->2
+  \path[->,dashed,line width=0.2mm] (n1_1) edge [left] node {0} (n2_1);
+  \path[->,line width=0.2mm] (n1_2) edge [right] node {1} (n2_2);
+  \path[->,line width=0.2mm] (n1_1) edge [left] node {1} (n2_2);
+  % Senken
+  \node[rectangle,draw] (0) at (1,-4.5) {$0$};
+  \node[rectangle,draw] (1) at (3,-4.5) {$1$};
+  % Pfeile 2->S
+  \path[->,line width=0.2mm](n2_1) edge [left] node {1} (0);
+  \path[->,line width=0.2mm] (n2_2) edge [right] node {1} (1);
+  \path[->,dashed,line width=0.2mm] (n2_2) edge  (0);
+  \draw(1.7,-3.5)node[anchor=south]{\small{$0$}};
+  \path[->,dashed,line width=0.2mm] (n2_1) edge  (1);
+  \draw(2.3,-3.5)node[anchor=south]{\small{$0$}};
+\end{tikzpicture}
+
+% Venn Diagram
 \begin{venndiagram2sets}[showframe=false]
-\fillOnlyB
+  \fillOnlyB
 \end{venndiagram2sets}
+
+% Schaltnetz
+\begin{circuitikz}[
+    input/.style    = {anchor=base,draw,circle,inner sep=1pt},
+    dot/.style    = {anchor=base,fill,circle,inner sep=1pt},
+    notdot/.style    = {anchor=base,fill,circle,inner sep=2pt},
+    scale=0.7, every node/.style={transform shape}
+  ]
+
+  % Eingänge für 2 Variablen
+  % Erzeugt Variable $x_1$ und $\overline{x_1}$
+  \draw
+  (-1, 13) node[not port] (not1) {}
+  (-1, 11) node[not port] (not0) {}
+  ;
+  \draw
+  (-4,14) node[input] {} --
+  (-3.5,14) node[dot] {} node[above] {$x_1$} --
+  (-3.5, 13) -- (not1.in) (not1.out) -- (0.0, 13) node[dot] {}
+
+  (-3.5,14) -- (0, 14) node[dot] {}
+
+
+  (-4,12) node[input] {} --
+  (-3.5,12) node[dot] {} node[above] {$x_2$} --
+  (-3.5, 11) -- (not0.in) (not0.out) -- (0, 11) node[dot] {}
+
+  (-3.5,12) -- (0, 12) node[dot] {}
+  ;
+
+  % Fixes an der Norm von CircuitTikz, damit es näher am Skript ist
+  % für die Punkte am Ausgang der not Gatter
+  \draw
+  (-1.1, 11.05) node[notdot] {}
+  (-1.1, 13.05) node[notdot] {}
+  ;
+
+  % Und-Gatter  
+  \draw
+  (7, 12) node[and port] (and1) {}
+
+  (7, 10) node[and port] (and2) {}
+  ;
+
+  % Oder Gatter
+  \draw
+  (10.5, 11.0) node[or port] (or1) {}
+  ;
+
+
+  % Verbindungen zwischen den Gattern
+  \draw
+  (and1.out) -- (or1.in 1)
+  (and2.out) -- (or1.in 2)
+  ;
+
+
+  % Ein JK FlipFlop
+  \draw
+  (15,8) node[shape=jkff] (jk1) {$JK_1$}
+  ;
+
+
+  % OR-Ausgang zu FlipFlop Eingang 
+  \draw
+  (or1.out) -- (or1.out |- jk1.K) -- (jk1.K)
+  ;
+
+\end{circuitikz}
+
 
 
 \end{document}
